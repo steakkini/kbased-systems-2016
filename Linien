@@ -81,6 +81,11 @@ station(u4, friedensbruecke).
 station(u4, spittelau).
 station(u4, heiligenstadt).
 
+isDirectlyConnected(ottakring, kendlerstrasse).
+isDirectlyConnected(X,Y):- isDirectlyConnected(Y,X). 
+isConncected(X,Y):- isDirectlyConnected(X,Y).
+isConnected(X,Y):- isConnected(X,Z), isConnected(Y,Z).
+
 %U1 (rot)
 %U2 (violett)
 %U3 (orange)
