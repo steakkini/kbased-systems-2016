@@ -1,16 +1,58 @@
-U1 (rot)
-U2 (violett)
-U3 (orange)
-U4 (grün)
-U6 (braun)
-S1
-S2
-S3
-S4
-S7
-S50
-S60
-S80
-S40
+linie(u1).
+linie(u2).
+station(u1,leopoldau).
+station(u1,grossfeldsiedlung).
+station(u1,aderklaaer_strasse).
+station(u1,rennbahnweg).
+station(u1,kagraner_platz).
+station(u1,kagran).
+station(u1,alte_donau).
+station(u1,kaisermuehlen-vic).
+station(u1,donauinsel).
+station(u1,vorgartenstrasse).
+station(u1,praterstern).
+station(u1,nestroyplatz).
+station(u1,schwedenplatz).
+station(u1,stephansplatz).
+station(u1,karlsplatz).
+station(u1,taubstummengasse).
+station(u1,südtiroler_platz_hauptbahnhof).
+station(u1,keplerplatz).
+station(u1,reumannplatz).
+station(u2,seestadt).
+station(u2,aspern_nord).
+station(u2,hausfeldstrasse).
+station(u2,donauspital).
+station(u2,hardegasse).
+station(u2,stadlau).
+station(u2,donaustadtbruecke).
+station(u2,donaumarina).
+station(u2,stadion).
+station(u2,krieau).
+station(u2,mess-prater).
+station(u2,praterstern).
+station(u2,taborstrasse).
+station(u2,schottenring).
+station(u2,schottentor).
+station(u2,rathaus).
+station(u2,volkstheater).
+station(u2,museumsquartier).
+station(u2,karlsplatz).
+
+
+%U1 (rot)
+%U2 (violett)
+%U3 (orange)
+%U4 (grün)
+%U6 (braun)
+%S1
+%S2
+%S3
+%S4
+%S7
+%S50
+%S60
+%S80
+%S40
 
 
