@@ -18,7 +18,7 @@ station(u1,schwedenplatz).
 station(u1,stephansplatz).
 station(u1,karlsplatz).
 station(u1,taubstummengasse).
-station(u1,südtiroler_platz_hauptbahnhof).
+station(u1,suedtiroler_platz_hauptbahnhof).
 station(u1,keplerplatz).
 station(u1,reumannplatz).
 station(u2,seestadt).
@@ -31,7 +31,7 @@ station(u2,donaustadtbruecke).
 station(u2,donaumarina).
 station(u2,stadion).
 station(u2,krieau).
-station(u2,mess-prater).
+station(u2,messe-prater).
 station(u2,praterstern).
 station(u2,taborstrasse).
 station(u2,schottenring).
@@ -81,6 +81,26 @@ station(u4, friedensbruecke).
 station(u4, spittelau).
 station(u4, heiligenstadt).
 
+isDirectlyConnected(karlsplatz,museumsquartier).
+isDirectlyConnected(museumsquartier,volkstheater).
+isDirectlyConnected(volkstheater,rathaus).
+isDirectlyConnected(rathaus,schottentor).
+isDirectlyConnected(schottentor,schottenring).
+isDirectlyConnected(schottenring,taborstrasse).
+isDirectlyConnected(taborstrasse,praterstern).
+isDirectlyConnected(praterstern,messe-prater).
+isDirectlyConnected(messe-prater,krieau).
+isDirectlyConnected(krieau,stadion).
+isDirectlyConnected(stadion,donaumarina).
+isDirectlyConnected(donaumarina,donaustadtbruecke).
+isDirectlyConnected(donaustadtbruecke,stadlau).
+isDirectlyConnected(stadlau,hardegasse).
+isDirectlyConnected(hardegasse,donauspital).
+isDirectlyConnected(donauspital,aspernstrasse).
+isDirectlyConnected(aspernstrasse,hausfeldstrasse).
+isDirectlyConnected(hausfeldstrasse,aspern_nord).
+isDirectlyConnected(aspern_nord,seestadt).
+
 isDirectlyConnected(ottakring, kendlerstrasse).
 isDirectlyConnected(kendlerstrasse, huetteldorfer_strasse).
 %isDirectlyConnected(X,Y):- isDirectlyConnected(Y,X).
@@ -90,6 +110,7 @@ isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X).
 
 path(From, To):- isConnected(From,To).
 path(From, To):- isConnected(From, X), isConnected(X, To), From \= To.
+
 
 %isConnected(X,Y):- isConnected(X,Z), isConnected(Y,Z).
 
