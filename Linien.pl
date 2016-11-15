@@ -81,6 +81,7 @@ station(u4, friedensbruecke).
 station(u4, spittelau).
 station(u4, heiligenstadt).
 
+%U2
 isDirectlyConnected(karlsplatz,museumsquartier).
 isDirectlyConnected(museumsquartier,volkstheater).
 isDirectlyConnected(volkstheater,rathaus).
@@ -100,20 +101,38 @@ isDirectlyConnected(donauspital,aspernstrasse).
 isDirectlyConnected(aspernstrasse,hausfeldstrasse).
 isDirectlyConnected(hausfeldstrasse,aspern_nord).
 
+%U3
 isDirectlyConnected(ottakring, kendlerstrasse).
 isDirectlyConnected(kendlerstrasse, huetteldorfer_strasse).
-%isDirectlyConnected(X,Y):- isDirectlyConnected(Y,X).
+isDirectlyConnected(huetteldorfer_strasse, johnstrasse).
+isDirectlyConnected(johnstrasse, schweglerstrasse).
+isDirectlyConnected(schweglerstrasse, westbahnhof).
+isDirectlyConnected(westbahnhof, zieglergasse).
+isDirectlyConnected(zieglergasse, neubaugasse).
+isDirectlyConnected(neubaugasse, volkstheater).
+isDirectlyConnected(volkstheater, herrengasse).
+isDirectlyConnected(herrengasse, stephansplatz).
+isDirectlyConnected(stephansplatz, stubentor).
+isDirectlyConnected(stubentor, landstrasse).
+isDirectlyConnected(landstrasse, rochusgasse).
+isDirectlyConnected(rochusgasse, kardinal-nagl-platz).
+isDirectlyConnected(kardinal-nagl-platz, schlachthausgasse).
+isDirectlyConnected(schlachthausgasse, erdberg).
+isDirectlyConnected(erdberg, gasometer).
+isDirectlyConnected(gasometer, zippererstrasse).
+isDirectlyConnected(zippererstrasse, enkplatz).
+isDirectlyConnected(enkplatz, simmering).
 
-isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X).
+isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X). %Bidirectional
 
+path(From, To):- path(From, To, []).
+path(From, To, _):- isConnected(From,To).
+path(From, To, V):- \+ member(From, V), isConnected(From, Z), path(Z, To, [From|V]), From \= To, \+ isConnected(From, To).
 
-path(From, To):- isConnected(From,To).
-path(From, To):- isConnected(From, X), isConnected(X, To), From \= To.
+pathB(X, Y) :- pathB(X,Y,[]).
+pathB(X, Y, _) :- isConnected(X,Y).
+%path(X, Y, V) :- \+ member(X, V), isDirectlyConnected(X, Z). 
 
-
-%isConnected(X,Y):- isConnected(X,Z), isConnected(Y,Z).
-
-%closure(From,To):- isDirectlyConnected(From, To).
 
 %U1 (rot)
 %U2 (violett)
