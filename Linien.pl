@@ -62,8 +62,8 @@ station(u3, zippererstrasse).
 station(u3, enkplatz).
 station(u3, simmering).
 station(u4, huetteldorf).
-station(u4, ober_st._veit).
-station(u4, unter_st._veit).
+station(u4, ober_st_veit).
+station(u4, unter_st_veit).
 station(u4, braunschweiggasse).
 station(u4, hietzing).
 station(u4, schoenbrunn).
