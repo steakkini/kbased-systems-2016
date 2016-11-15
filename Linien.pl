@@ -82,9 +82,37 @@ station(u4, spittelau).
 station(u4, heiligenstadt).
 
 isDirectlyConnected(ottakring, kendlerstrasse).
-isDirectlyConnected(X,Y):- isDirectlyConnected(Y,X). 
-isConncected(X,Y):- isDirectlyConnected(X,Y).
-isConnected(X,Y):- isConnected(X,Z), isConnected(Y,Z).
+isDirectlyConnected(kendlerstrasse, huetteldorfer_strasse).
+isDirectlyConnected(huetteldorfer_strasse, johnstrasse).
+isDirectlyConnected(johnstrasse, schweglerstrasse).
+isDirectlyConnected(schweglerstrasse, westbahnhof).
+isDirectlyConnected(westbahnhof, zieglergasse).
+isDirectlyConnected(zieglergasse, neubaugasse).
+isDirectlyConnected(neubaugasse, volkstheater).
+isDirectlyConnected(volkstheater, herrengasse).
+isDirectlyConnected(herrengasse, stephansplatz).
+isDirectlyConnected(stephansplatz, stubentor).
+isDirectlyConnected(stubentor, landstrasse).
+isDirectlyConnected(landstrasse, rochusgasse).
+isDirectlyConnected(rochusgasse, kardinal-nagl-platz).
+isDirectlyConnected(kardinal-nagl-platz, schlachthausgasse).
+isDirectlyConnected(schlachthausgasse, erdberg).
+isDirectlyConnected(erdberg, gasometer).
+isDirectlyConnected(gasometer, zippererstrasse).
+isDirectlyConnected(zippererstrasse, enkplatz).
+isDirectlyConnected(enkplatz, simmering).
+
+isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X). %Bidirectional
+
+path(From, To):- path(From, To, []).
+path(From, To, _):- isConnected(From,To).
+path(From, To, V):- \+ member(From, V), isConnected(From, Z), path(Z, To, [From|V]), From \= To, \+ isConnected(From, To).
+
+
+pathB(X, Y) :- pathB(X,Y,[]).
+pathB(X, Y, _) :- isConnected(X,Y).
+%path(X, Y, V) :- \+ member(X, V), isDirectlyConnected(X, Z). 
+
 
 %U1 (rot)
 %U2 (violett)
