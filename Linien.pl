@@ -99,7 +99,6 @@ isDirectlyConnected(hardegasse,donauspital).
 isDirectlyConnected(donauspital,aspernstrasse).
 isDirectlyConnected(aspernstrasse,hausfeldstrasse).
 isDirectlyConnected(hausfeldstrasse,aspern_nord).
-isDirectlyConnected(aspern_nord,seestadt).
 
 isDirectlyConnected(ottakring, kendlerstrasse).
 isDirectlyConnected(kendlerstrasse, huetteldorfer_strasse).
