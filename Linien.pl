@@ -82,9 +82,18 @@ station(u4, spittelau).
 station(u4, heiligenstadt).
 
 isDirectlyConnected(ottakring, kendlerstrasse).
-isDirectlyConnected(X,Y):- isDirectlyConnected(Y,X). 
-isConncected(X,Y):- isDirectlyConnected(X,Y).
-isConnected(X,Y):- isConnected(X,Z), isConnected(Y,Z).
+isDirectlyConnected(kendlerstrasse, huetteldorfer_strasse).
+%isDirectlyConnected(X,Y):- isDirectlyConnected(Y,X).
+
+isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X).
+
+
+path(From, To):- isConnected(From,To).
+path(From, To):- isConnected(From, X), isConnected(X, To), From \= To.
+
+%isConnected(X,Y):- isConnected(X,Z), isConnected(Y,Z).
+
+%closure(From,To):- isDirectlyConnected(From, To).
 
 %U1 (rot)
 %U2 (violett)
