@@ -38,6 +38,7 @@ isDirectlyConnected(donauspital,aspernstrasse).
 isDirectlyConnected(aspernstrasse,hausfeldstrasse).
 isDirectlyConnected(hausfeldstrasse,aspern_nord).
 
+
 %U3
 isDirectlyConnected(ottakring, kendlerstrasse).
 isDirectlyConnected(kendlerstrasse, huetteldorfer_strasse).
@@ -120,16 +121,25 @@ isDirectlyConnected(suedtiroler_platz_hauptbahnhof,grillgasse).
 isDirectlyConnected(grillgasse,kledering).
 
 
-
 isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X). %Bidirectional
 
-path(From, To):- path(From, To, []).
-path(From, To, _):- isConnected(From,To).
-path(From, To, V):- \+ member(From, V), isConnected(From, Z), path(Z, To, [From|V]), From \= To, \+ isConnected(From, To).
+%path(From, To):- path(From, To, []).
+%path(From, To, _):- isConnected(From,To).
+%path(From, To, V):- \+ member(From, V), isConnected(From, Z), path(Z, To, [From|V]), From \= To, \+ %isConnected(From, To).
 
-pathB(X, Y) :- pathB(X,Y,[]).
-pathB(X, Y, _) :- isConnected(X,Y).
-%path(X, Y, V) :- \+ member(X, V), isDirectlyConnected(X, Z). 
+pathC(A,B,Path) :-
+       travel(A,B,[A],Q), 
+       reverse(Q,Path).
+
+travel(A,B,P,[B|P]) :- 
+       isConnected(A,B).
+travel(A,B,Visited,Path) :-
+       isConnected(A,C),           
+       C \== B,
+       \+member(C,Visited),
+       travel(C,B,[C|Visited],Path). 
+
+
 
 
 
