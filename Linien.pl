@@ -121,25 +121,48 @@ isDirectlyConnected(suedtiroler_platz_hauptbahnhof,grillgasse).
 isDirectlyConnected(grillgasse,kledering).
 
 
-isConnected(X,Y):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X). %Bidirectional
+isConnected(X,Y, 1):- isDirectlyConnected(X,Y); isDirectlyConnected(Y,X). %Bidirectional
 
-%path(From, To):- path(From, To, []).
-%path(From, To, _):- isConnected(From,To).
-%path(From, To, V):- \+ member(From, V), isConnected(From, Z), path(Z, To, [From|V]), From \= To, \+ %isConnected(From, To).
 
-pathC(A,B,Path) :-
-       travel(A,B,[A],Q), 
+path(A,B,Path,Len) :-
+       travel(A,B,[A],Q,Len), 
        reverse(Q,Path).
 
-travel(A,B,P,[B|P]) :- 
-       isConnected(A,B).
-travel(A,B,Visited,Path) :-
-       isConnected(A,C),           
+travel(A,B,P,[B|P],L) :- 
+       isConnected(A,B,L).
+
+travel(A,B,Visited,Path,L) :-
+       isConnected(A,C,D),           
        C \== B,
        \+member(C,Visited),
-       travel(C,B,[C|Visited],Path). 
+       travel(C,B,[C|Visited],Path,L1),
+       L is D+L1.  
+
+shortest(A,B,Length,Path) :-
+   setof([P,L],path(A,B,P,L),Set),
+   Set = [_|_], % fail if empty
+   minimal(Set,[Path,Length]).
+
+minimal([F|R],M) :- min(R,F,M).
+
+% minimal path
+min([],M,M).				
+min([[P,L]|R],[_,M],Min) :- L < M, !, min(R,[P,L],Min). 
+min([_|R],M,Min) :- min(R,M,Min).
 
 
+
+longest(A,B,Length,Path) :-
+   setof([P,L],path(A,B,P,L),Set),
+   Set = [_|_], % fail if empty
+   maximal(Set,[Path,Length]).
+
+maximal([F|R],M) :- max(R,F,M).
+
+% minimal path
+max([],M,M).
+max([[P,L]|R],[_,M],Min) :- L > M, !, max(R,[P,L],Min). 
+max([_|R],M,Min) :- max(R,M,Min).
 
 
 
