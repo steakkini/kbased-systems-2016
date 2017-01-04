@@ -146,7 +146,7 @@ shortest(A,B,Length,Path) :-
 minimal([F|R],M) :- min(R,F,M).
 
 % minimal path
-min([],M,M).
+min([],M,M).				
 min([[P,L]|R],[_,M],Min) :- L < M, !, min(R,[P,L],Min). 
 min([_|R],M,Min) :- min(R,M,Min).
 
