@@ -184,16 +184,14 @@ longest(From,To,Length,Path) :-
    Set = [_|_], % fail if empty
    maximal(Set,[Path,Length]).
 
-maximal([F|R],M) :- max(R,F,M).
-
-
 %
 %maximal path
 %
-max([],M,M).																	
-max([[Path,Length]|R],[_,M],Min) :- Length > M, !, max(R,[Path,Length],Min). 	%cut (!) macht irgendwas fancyges, um nicht unnötig viele alternativen zu probieren (siehe folien)
-max([_|R],M,Min) :- max(R,M,Min).
+max([],Max,Max).								%base case
+max([[Path,Length]|Next],[_,CurrentMax], Max) :-
+    CurrentMax < Length, max(Next,[Path,Length], Max).
+max([_|Next],CurrentMax,Max) :- max(Next,CurrentMax,Max).
 
-
+maximal([Head|Rest], Min) :- max(Rest, Head, Min).
 
 
