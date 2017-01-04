@@ -124,48 +124,61 @@ isDirectlyConnected(grillgasse,kledering).
 
  
 %
-%Bidirectional connections between stations
+%Bidirectional connections between stations, initialize Distance with 1
 %
-isConnected(X,Y, 1):- 
-			isDirectlyConnected(X,Y); 
-			isDirectlyConnected(Y,X).
+isConnected(From,To, 1):- 
+			isDirectlyConnected(From,To); 
+			isDirectlyConnected(To, From).
 
 %
-%finds all paths from A to B 
+%Make indirect connections possible
+%"travels" from station to station
 %
-path(From,To,Path,Length) :-
-       travel(From,To,[From],RevPath,Length), 
-       reverse(RevPath,Path).										%reverse() true if Path is in reverse order compared to RevPath
 
+%(base case) direct connections
 travel(From,To,Path,[To|Path],Length) :- 
 			isConnected(From,To,Length).
 
+%indirect connections
 travel(From,To,Visited,Path,Length) :-
        isConnected(From,IStation,Distance),           
-       IStation \== To,																	%IStation -> Intermediate Station
-       \+member(IStation,Visited),											%make sure IStation has not already been visited
-       travel(IStation,To,[IStation|Visited],Path,L1), 	%travel recursively
-       Length is Distance+L1.  													%Length of current path +1	
+       IStation \== To,								%IStation -> Intermediate Station
+       \+member(IStation,Visited),						%make sure IStation has not already been visited
+       travel(IStation,To,[IStation|Visited],Path,L1), 				%travel recursively 
+       Length is Distance+L1.  							%Length of current path +1	
+
+%
+%finds a path from A to B 
+%
+path(From,To,Path,Length) :-
+       travel(From,To,[From],Path2,Length), 					%travel from -> to, from-node already visited
+       reverse(Path2,Path).							%reverse list (reverse() true if Path is in reverse order compared to Path2)
+
+%
+%statement to find minimum in a list
+%
+
+min([],Min,Min).								%initialize list
+min([[Path,Length]|R],[_,M],Min) :- Length < M, !, min(R,[Path,Length],Min). 	%
+min([_|R],M,Min) :- min(R,M,Min).
+
+
+minimal([F|R],M) :- min(R,F,M).
 
 %
 %find shortest path
 %
 shortest(From,To,Length,Path) :-								
    setof([Path,Length],path(From,To,Path,Length),Set),
-   Set = [_|_], 																%fails if empty
+   Set = [_|_], 								%fails if empty
    minimal(Set,[Path,Length]).
 
-minimal([F|R],M) :- min(R,F,M).
 
-%
-%minimal path
-%
-min([],M,M).
-min([[Path,Length]|R],[_,M],Min) :- Length < M, !, min(R,[Path,Length],Min). %cut (!) macht irgendwas fancyges, um nicht unnötig viele alternativen zu probieren (siehe folien)
-min([_|R],M,Min) :- min(R,M,Min).
 
 
 %
+
+
 %find longest path
 %
 longest(From,To,Length,Path) :-								
@@ -180,5 +193,9 @@ maximal([F|R],M) :- max(R,F,M).
 %maximal path
 %
 max([],M,M).																	
-max([[Path,Length]|R],[_,M],Min) :- Length > M, !, max(R,[Path,Length],Min). %cut (!) macht irgendwas fancyges, um nicht unnötig viele alternativen zu probieren (siehe folien)
+max([[Path,Length]|R],[_,M],Min) :- Length > M, !, max(R,[Path,Length],Min). 	%cut (!) macht irgendwas fancyges, um nicht unnötig viele alternativen zu probieren (siehe folien)
 max([_|R],M,Min) :- max(R,M,Min).
+
+
+
+
