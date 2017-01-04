@@ -158,29 +158,27 @@ path(From,To,Path,Length) :-
 %statement to find minimum in a list
 %
 
-min([],Min,Min).								%initialize list
-min([[Path,Length]|R],[_,M],Min) :- Length < M, !, min(R,[Path,Length],Min). 	%
-min([_|R],M,Min) :- min(R,M,Min).
+min([],Min,Min).								%base case
+min([[Path,Length]|Next],[_,CurrentMin], Min) :-
+    CurrentMin > Length, min(Next,[Path,Length], Min).
+min([_|Next],CurrentMin,Min) :- min(Next,CurrentMin,Min).
 
-
-minimal([F|R],M) :- min(R,F,M).
+minimal([Head|Rest], Min) :- min(Rest, Head, Min).
 
 %
 %find shortest path
 %
+
 shortest(From,To,Length,Path) :-								
    setof([Path,Length],path(From,To,Path,Length),Set),
    Set = [_|_], 								%fails if empty
    minimal(Set,[Path,Length]).
 
 
-
-
 %
-
-
 %find longest path
 %
+
 longest(From,To,Length,Path) :-								
    setof([Path,Length],path(From,To,Path,Length),Set),
    Set = [_|_], % fail if empty
