@@ -158,21 +158,37 @@ path(From,To,Path,Length) :-
 %statement to find minimum in a list
 %
 
-min([],Min,Min).								%base case
-min([[Path,Length]|Next],[_,CurrentMin], Min) :-
-    CurrentMin > Length, min(Next,[Path,Length], Min).
-min([_|Next],CurrentMin,Min) :- min(Next,CurrentMin,Min).
+minPath([], Min, Min).									%base case
+minPath([[Path,Length]| Next],[Path2,CurrentMin], Min) :-
+	(CurrentMin > Length -> minPath(Next, [Path, Length], Min)
+		;
+	 minPath(Next, [Path2,CurrentMin], Min)).
 
-minimal([Head|Rest], Min) :- min(Rest, Head, Min).
-%
-%find shortest path
-%
+
+minimal([Head|Rest], Min) :- minPath(Rest, Head, Min).
+
 
 shortest(From,To,Length,Path) :-								
    setof([Path,Length],path(From,To,Path,Length),Set),
    Set = [_|_], 								%fails if empty
    minimal(Set,[Path,Length]).
 
+
+
+
+%
+%maximal path
+%
+
+maxPath([],Max,Max).								%base case
+
+maxPath([[Path,Length]| Next],[Path2,CurrentMax], Max) :-
+	(CurrentMax < Length -> maxPath(Next, [Path, Length], Max)
+		;
+	 maxPath(Next, [Path2,CurrentMax], Max)).
+
+
+maximal([Head|Rest], Max) :- max(Rest, Head, Max).
 
 %
 %find longest path
@@ -183,29 +199,8 @@ longest(From,To,Length,Path) :-
    Set = [_|_], % fail if empty
    maximal(Set,[Path,Length]).
 
-%
-%maximal path
-%
-max([],Max,Max).								%base case
-max([[Path,Length]|Next],[_,CurrentMax], Max) :-
-    CurrentMax < Length, max(Next,[Path,Length], Max).
-max([_|Next],CurrentMax,Max) :- max(Next,CurrentMax,Max).
-
-maximal([Head|Rest], Min) :- max(Rest, Head, Min).
 
 
-minPath([], Min, Min).									%base case
-minPath([[Path,Length]| Next],[Path2,CurrentMin], Min) :-
-	(CurrentMin > Length -> minPath(Next, [Path, Length], Min)
-		;
-	 minPath(Next, [Path2,CurrentMin], Min)).
 
 
-minimal2([Head|Rest], Min) :- minPath(Rest, Head, Min).
-
-
-shortest2(From,To,Length,Path) :-								
-   setof([Path,Length],path(From,To,Path,Length),Set),
-   Set = [_|_], 								%fails if empty
-   minimal2(Set,[Path,Length]).
 
