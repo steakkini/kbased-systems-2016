@@ -1,0 +1,22 @@
+%%%%%%%%%%%%%%%%%%%%%%
+% KBS Queries / DEMO %
+%%%%%%%%%%%%%%%%%%%%%%
+
+set_prolog_flag(answer_write_options,[max_depth(0)]).
+
+
+% Get all paths from a to b (path(a,b,Path,Length).)
+path(museumsquartier,ottakring,Path,Length).
+
+
+% Shortest path from a to b (shortest(a,b,Path,Length).)
+shortest(museumsquartier,ottakring,Path,Length).
+
+
+% Longest path from a to b (longest(a,b,Path,Length).)
+longest(museumsquartier,ottakring,Path,Length).
+
+
+% Where can I get from a within n hops (path(a,B,Path,n).)
+% returns duplicates
+path(museumsquartier,To,Path,5).
