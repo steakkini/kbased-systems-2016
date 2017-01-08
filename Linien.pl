@@ -164,7 +164,6 @@ min([[Path,Length]|Next],[_,CurrentMin], Min) :-
 min([_|Next],CurrentMin,Min) :- min(Next,CurrentMin,Min).
 
 minimal([Head|Rest], Min) :- min(Rest, Head, Min).
-
 %
 %find shortest path
 %
@@ -194,4 +193,19 @@ max([_|Next],CurrentMax,Max) :- max(Next,CurrentMax,Max).
 
 maximal([Head|Rest], Min) :- max(Rest, Head, Min).
 
+
+minPath([], Min, Min).									%base case
+minPath([[Path,Length]| Next],[Path2,CurrentMin], Min) :-
+	(CurrentMin > Length -> minPath(Next, [Path, Length], Min)
+		;
+	 minPath(Next, [Path2,CurrentMin], Min)).
+
+
+minimal2([Head|Rest], Min) :- minPath(Rest, Head, Min).
+
+
+shortest2(From,To,Length,Path) :-								
+   setof([Path,Length],path(From,To,Path,Length),Set),
+   Set = [_|_], 								%fails if empty
+   minimal2(Set,[Path,Length]).
 
