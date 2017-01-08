@@ -122,13 +122,13 @@ isDirectlyConnected(grillgasse,kledering).
 
 
 
- 
 %
 %Bidirectional connections between stations, initialize Distance with 1
 %
 isConnected(From,To, 1):- 
 			isDirectlyConnected(From,To); 
 			isDirectlyConnected(To, From).
+
 
 %
 %Make indirect connections possible
@@ -147,6 +147,7 @@ travel(From,To,Visited,Path,Length) :-
        travel(IStation,To,[IStation|Visited],Path,L1), 				%travel recursively 
        Length is Distance+L1.  							%Length of current path +1	
 
+
 %
 %finds a path from A to B 
 %
@@ -154,26 +155,25 @@ path(From,To,Path,Length) :-
        travel(From,To,[From],Path2,Length), 					%travel from -> to, from-node already visited
        reverse(Path2,Path).							%reverse list (reverse() true if Path is in reverse order compared to Path2)
 
+
 %
 %statement to find minimum in a list
 %
 
-minPath([], Min, Min).									%base case
+minPath([], Min, Min).								%base case
 minPath([[Path,Length]| Next],[Path2,CurrentMin], Min) :-
-	(CurrentMin > Length -> minPath(Next, [Path, Length], Min)
-		;
-	 minPath(Next, [Path2,CurrentMin], Min)).
-
+	( CurrentMin > Length 
+	  -> minPath(Next, [Path, Length], Min)
+	  ; minPath(Next, [Path2,CurrentMin], Min)
+	 ).
 
 minimal([Head|Rest], Min) :- minPath(Rest, Head, Min).
 
 
 shortest(From,To,Length,Path) :-								
    setof([Path,Length],path(From,To,Path,Length),Set),
-   Set = [_|_], 								%fails if empty
+   Set = [_|_], 								%fail if empty
    minimal(Set,[Path,Length]).
-
-
 
 
 %
@@ -181,14 +181,14 @@ shortest(From,To,Length,Path) :-
 %
 
 maxPath([],Max,Max).								%base case
-
 maxPath([[Path,Length]| Next],[Path2,CurrentMax], Max) :-
-	(CurrentMax < Length -> maxPath(Next, [Path, Length], Max)
-		;
-	 maxPath(Next, [Path2,CurrentMax], Max)).
+	( CurrentMax < Length 
+	  -> maxPath(Next, [Path, Length], Max)
+	  ; maxPath(Next, [Path2,CurrentMax], Max)
+	).
 
+maximal([Head|Rest], Max) :- maxPath(Rest, Head, Max).
 
-maximal([Head|Rest], Max) :- max(Rest, Head, Max).
 
 %
 %find longest path
@@ -198,9 +198,5 @@ longest(From,To,Length,Path) :-
    setof([Path,Length],path(From,To,Path,Length),Set),
    Set = [_|_], % fail if empty
    maximal(Set,[Path,Length]).
-
-
-
-
 
 
